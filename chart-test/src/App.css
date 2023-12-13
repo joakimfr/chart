@@ -1,0 +1,40 @@
+
+.main {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.chart {
+  width: 1170px;
+ 
+  background-color: #121212;
+  display: flex;
+ 
+ justify-content: space-between;
+ padding: 0 32px;
+}
+
+.chart-container {
+  display: flex;
+  align-items: flex-end;
+
+  
+}
+.chart-canvas {
+  width: 840px; /* Ange önskad bredd */
+  height: 560px;
+}
+
+.rating {
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+.names {
+  padding-left: 1rem; 
+}
