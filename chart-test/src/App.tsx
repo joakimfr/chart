@@ -223,6 +223,9 @@ useEffect(() => {
                 display: false,
                 color: '#3B3B3B',
               },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.90)',
+              },
             },
             y: {
               position: 'right',
@@ -246,7 +249,6 @@ useEffect(() => {
                 color: 'white',
               },
             },
-
             datalabels: {
               display: true,
               color: 'white',
