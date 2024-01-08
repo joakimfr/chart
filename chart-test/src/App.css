@@ -24,7 +24,7 @@
   
 }
 .chart-canvas {
-  width: 840px; /* Ange önskad bredd */
+  width: 820px; /* Ange önskad bredd */
   height: 560px;
 }
 
@@ -36,5 +36,23 @@
 }
 
 .names {
-  padding-left: 1rem; 
+ 
+  
+}
+
+.category-container {
+  
+  padding: .5rem 1rem; 
+ 
+  cursor: pointer;
+  transition: background-color 0.2s;
+  transition: color 0.3s ease;
+  
+}
+.category-container:hover {
+  color: #7cc07c;
+}
+.category-container.selected {
+  background-color: #7cc07c; 
+  color: #000; 
 }

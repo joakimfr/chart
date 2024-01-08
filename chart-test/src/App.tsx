@@ -55,7 +55,7 @@ function App() {
       name: 'CyberGhost',
       ratings: {
         overallRating: {
-          rating: 9.66,
+          rating: 9.6,
           category: 'Overall Rating',
         },
         speedPerformance: {
@@ -186,9 +186,13 @@ useEffect(() => {
     if (ctx) {
       Chart.getChart(chartRef.current)?.destroy();
 
-      const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-      gradient.addColorStop(0, '#3D8A3D');
-      gradient.addColorStop(1, '#192E1A');
+      const gradientNormal = ctx.createLinearGradient(0, 0, 0, 300);
+      gradientNormal.addColorStop(0, '#3D8A3D');
+      gradientNormal.addColorStop(1, '#192E1A');
+
+      const gradientHighlight = ctx.createLinearGradient(0, 0, 0, 300);
+      gradientHighlight.addColorStop(0, '#4CAF50'); // Ljusare nyans än #3D8A3D
+      gradientHighlight.addColorStop(1, '#214E2B'); // Ljusare nyans än #192E1A
 
       const minRating = Math.min(...data.map((vpn) => vpn.ratings[selectedCategory].rating));
       const maxRating = Math.max(...data.map((vpn) => vpn.ratings[selectedCategory].rating));
@@ -203,6 +207,7 @@ useEffect(() => {
 
       Chart.register(ChartDataLabels);
 
+
       new Chart(ctx, {
         type: 'bar',
         data: {
@@ -211,17 +216,26 @@ useEffect(() => {
             {
               label: data[0].ratings[selectedCategory].category,
               data: data.map((vpn) => vpn.ratings[selectedCategory].rating),
-              backgroundColor: gradient,
+              backgroundColor: data.map((vpn) => vpn.ratings[selectedCategory].rating === maxRating ? gradientHighlight : gradientNormal),
               barThickness: 150,
             },
           ],
         },
         options: {
+          // animations: {
+          //   borderWidth: {
+          //     duration: 1000,
+          //     easing: 'linear',
+          //     from: 1,
+          //     to: 5,
+          //     loop: true
+          //   }
+          // },
           scales: {
             x: {
               grid: {
                 display: false,
-                color: '#3B3B3B',
+                color: 'rgba(255, 255, 255, 0.90)', // Färgen på x-axelns linjer
               },
               ticks: {
                 color: 'rgba(255, 255, 255, 0.90)',
@@ -251,17 +265,24 @@ useEffect(() => {
             },
             datalabels: {
               display: true,
-              color: 'white',
+              color: (context) => {
+                // Changing color on highest rating
+                const dataIndex = context.dataIndex;
+                const rating = data[dataIndex].ratings[selectedCategory].rating;
+                return rating === maxRating ? 'white' : 'white';
+              },
               anchor: 'end',
               align: 'end',
               formatter: (value) => value.toFixed(1),
             },
           },
+
           elements: {
             line: {
               borderColor: '#3B3B3B',
             },
           },
+          
         },
       });
     }
@@ -275,9 +296,13 @@ return (
         <h2>Ratings Details</h2>
         <div className='names'>
           {Object.keys(data[0].ratings).map((category) => (
-            <p key={category} onClick={() => handleCategoryClick(category)}>
-              {data[0].ratings[category].category}
-            </p>
+             <div
+             key={category}
+             onClick={() => handleCategoryClick(category)}
+             className={`category-container ${selectedCategory === category ? 'selected' : ''}`}
+           >
+             {data[0].ratings[category].category}
+           </div>
           ))}
         </div>
       </article>
